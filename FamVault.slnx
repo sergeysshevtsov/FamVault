@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="FamVault.App/FamVault.App.csproj">
+    <BuildType Solution="Debug|*" Project="Debug_R23" />
+  </Project>
+  <Project Path="FamVault.Core/FamVault.Core.csproj" />
+  <Project Path="FamVault.Storage/FamVault.Storage.csproj" />
+</Solution>

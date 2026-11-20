@@ -1,0 +1,78 @@
+﻿<Window
+    x:Class="FamVault.App.UI.Views.EditRevisionCommentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="FamVault - Edit Comment"
+    Width="500"
+    Height="270"
+    MinWidth="420"
+    MinHeight="240"
+    WindowStartupLocation="CenterOwner"
+    ResizeMode="CanResize"
+    Background="{DynamicResource WindowBackground}"
+    Foreground="{DynamicResource PrimaryText}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary
+                    Source="/FamVault.App;component/UI/Resources/FamVaultStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid
+        Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                Height="Auto" />
+            <RowDefinition
+                Height="*" />
+            <RowDefinition
+                Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Margin="0,0,0,14">
+            <TextBlock
+                Text="Edit Revision Comment"
+                FontSize="20"
+                FontWeight="SemiBold"
+                Foreground="{DynamicResource PrimaryText}" />
+
+            <TextBlock
+                Text="Update the description without creating a new revision."
+                Margin="0,6,0,0"
+                Foreground="{DynamicResource SecondaryText}" />
+        </StackPanel>
+
+        <TextBox
+            x:Name="CommentTextBox"
+            Grid.Row="1"
+            Style="{StaticResource FamVaultCommentTextBox}"
+            VerticalAlignment="Stretch"
+            VerticalContentAlignment="Top" />
+
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Margin="0,14,0,0">
+
+            <Button
+                Content="Cancel"
+                Width="100"
+                Margin="0,0,8,0"
+                Style="{StaticResource FamVaultSecondaryButton}"
+                IsCancel="True" />
+
+            <Button
+                Content="Save Comment"
+                MinWidth="120"
+                Style="{StaticResource FamVaultButton}"
+                IsDefault="True"
+                Click="Save_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Application">
+		<Name>FamVault</Name>
+		<Assembly>.\FamVault\FamVault.App.dll</Assembly>
+		<AddInId>7F94A06C-54B0-42E8-BFD2-5D8C7FAD12B1</AddInId>
+		<FullClassName>FamVault.App.App</FullClassName>
+		<VendorId>FVLT</VendorId>
+		<VendorDescription>FamVault Revit Family Manager</VendorDescription>
+	</AddIn>
+</RevitAddIns>

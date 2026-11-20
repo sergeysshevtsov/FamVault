@@ -1,0 +1,150 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<UseWPF>true</UseWPF>
+		<LangVersion>latest</LangVersion>
+		<PlatformTarget>x64</PlatformTarget>
+		<ImplicitUsings>true</ImplicitUsings>
+		<PublishAddinFiles>true</PublishAddinFiles>
+		<Configurations>$(Configurations);Debug_R23;Debug_R24;Debug_R25;Debug_R26;Debug_R27;Release_R23;Release_R24;Release_R25;Release_R26;Release_R27;</Configurations>
+		<IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="$([System.String]::Copy('$(Configuration)').Contains('_R23'))">
+		<RevitVersion>2023</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.String]::Copy('$(Configuration)').Contains('R24'))">
+		<RevitVersion>2024</RevitVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.String]::Copy('$(Configuration)').Contains('R25'))">
+		<RevitVersion>2025</RevitVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.String]::Copy('$(Configuration)').Contains('R26'))">
+		<RevitVersion>2026</RevitVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+	<PropertyGroup Condition="$([System.String]::Copy('$(Configuration)').Contains('R27'))">
+		<RevitVersion>2027</RevitVersion>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<StartAction>Program</StartAction>
+		<StartProgram>C:\Program Files\Autodesk\Revit $(RevitVersion)\Revit.exe</StartProgram>
+		<StartArguments>/language ENG</StartArguments>
+		<Title>FamVault</Title>
+
+		<DebugType>portable</DebugType>
+		<DebugSymbols>true</DebugSymbols>
+		<Optimize Condition="$(Configuration.StartsWith('Debug'))">false</Optimize>
+		<Optimize Condition="$(Configuration.StartsWith('Release'))">true</Optimize>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="Resources\Icons\library16.png" />
+	  <None Remove="Resources\Icons\library32.png" />
+	  <None Remove="Resources\Icons\quickSave16.png" />
+	  <None Remove="Resources\Icons\quickSave32.png" />
+	  <None Remove="Resources\Icons\saveDetails16.png" />
+	  <None Remove="Resources\Icons\saveDetails32.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="RevitAPI">
+			<HintPath>C:\Program Files\Autodesk\Revit $(RevitVersion)\RevitAPI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="RevitAPIUI">
+			<HintPath>C:\Program Files\Autodesk\Revit $(RevitVersion)\RevitAPIUI.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AdWindows">
+			<HintPath>C:\Program Files\Autodesk\Revit $(RevitVersion)\AdWindows.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\FamVault.Core\FamVault.Core.csproj" />
+		<ProjectReference Include="..\FamVault.Storage\FamVault.Storage.csproj" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+		<Reference Include="PresentationCore" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="PresentationFramework.Aero2" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\Icons\library16.png" />
+	  <Resource Include="Resources\Icons\library32.png" />
+	  <Resource Include="Resources\Icons\quickSave16.png" />
+	  <Resource Include="Resources\Icons\quickSave32.png" />
+	  <Resource Include="Resources\Icons\saveDetails16.png" />
+	  <Resource Include="Resources\Icons\saveDetails32.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<RevitDeployFiles Include="$(TargetPath)" />
+		<RevitDeployFiles Include="@(ReferenceCopyLocalPaths)" />
+		<RevitDeployFiles Include="@(RuntimeCopyLocalItems)" />
+	</ItemGroup>
+
+	<!--<Target Name="CopyRevitAddin" AfterTargets="Build" Condition="'$(RevitVersion)' != ''">
+
+		<PropertyGroup>
+			<RevitAddinsDir>$(APPDATA)\Autodesk\Revit\Addins\$(RevitVersion)</RevitAddinsDir>
+			<RevitAppDir>$(RevitAddinsDir)\FamVault</RevitAppDir>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<RevitDeployFiles Include="$(TargetDir)**\*.*" Exclude="$(TargetDir)**\RevitAPI.dll;&#xD;&#xA;                                   $(TargetDir)**\RevitAPIUI.dll;&#xD;&#xA;                                   $(TargetDir)**\AdWindows.dll;&#xD;&#xA;                                   $(TargetDir)**\UIFramework.dll" />
+
+			<RevitAddinFiles Include="$(ProjectDir)*.addin" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(RevitAddinsDir);$(RevitAppDir)" />
+
+		<Copy SourceFiles="@(RevitDeployFiles)" DestinationFiles="@(RevitDeployFiles->'$(RevitAppDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+
+		<Copy SourceFiles="@(RevitAddinFiles)" DestinationFolder="$(RevitAddinsDir)" SkipUnchangedFiles="true" />
+
+	</Target>-->
+
+	<Target Name="CopyRevitAddin" AfterTargets="Build" Condition="'$(RevitVersion)' != ''">
+
+		<PropertyGroup>
+			<RevitAddinsDir>$(APPDATA)\Autodesk\Revit\Addins\$(RevitVersion)</RevitAddinsDir>
+			<RevitAppDir>$(RevitAddinsDir)\FamVault</RevitAppDir>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<DeployFiles Include="$(TargetDir)**\*.*" Exclude="$(TargetDir)**\RevitAPI.dll;&#xD;&#xA;                              $(TargetDir)**\RevitAPIUI.dll;&#xD;&#xA;                              $(TargetDir)**\AdWindows.dll;&#xD;&#xA;                              $(TargetDir)**\UIFramework.dll" />
+
+			<RevitAddinFiles Include="$(ProjectDir)*.addin" />
+		</ItemGroup>
+
+		<MakeDir Directories="$(RevitAddinsDir);$(RevitAppDir)" />
+
+		<Message Text="Revit Version: $(RevitVersion)" Importance="high" />
+
+		<Message Text="Target Framework: $(TargetFramework)" Importance="high" />
+
+		<Message Text="Target Directory: $(TargetDir)" Importance="high" />
+
+		<Message Text="Deploy Files: @(DeployFiles)" Importance="high" />
+
+		<Copy SourceFiles="@(DeployFiles)" DestinationFiles="@(DeployFiles->'$(RevitAppDir)\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+
+		<Copy SourceFiles="@(RevitAddinFiles)" DestinationFolder="$(RevitAddinsDir)" SkipUnchangedFiles="true" />
+
+	</Target>
+
+</Project>
